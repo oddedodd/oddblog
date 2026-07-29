@@ -1,3 +1,7 @@
+# oddblog
+
+Simple Astro frontend for a personal blog/portfolio.
+
 ## Development
 
 When starting the dev server, use background mode:
