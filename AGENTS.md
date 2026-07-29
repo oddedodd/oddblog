@@ -1,6 +1,13 @@
 # oddblog
 
-Simple Astro frontend for a personal blog/portfolio.
+Simple Astro frontend for a personal blog/portfolio, with content in Sanity.
+
+## Sanity
+
+- Studio lives in `studio/` — run with `npm run studio` (port 3333)
+- Astro queries content via `@sanity/astro` and `import { sanityClient } from 'sanity:client'`
+- Project ID and dataset are in `.env` (`PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`)
+- Post schema is in `studio/schemaTypes/post.ts`
 
 ## Development
 

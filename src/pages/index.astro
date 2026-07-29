@@ -1,17 +1,61 @@
 ---
+import { sanityClient } from 'sanity:client';
 
+type Post = {
+	title: string;
+	slug: { current: string };
+	publishedAt: string;
+	excerpt?: string;
+};
+
+const posts = await sanityClient.fetch<Post[]>(
+	`*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+    title,
+    slug,
+    publishedAt,
+    excerpt
+  }`,
+);
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>oddblog</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<main>
+			<h1>oddblog</h1>
+			<p>Personal blog and portfolio, powered by Astro and Sanity.</p>
+
+			<h2>Posts</h2>
+			{posts.length === 0 ? (
+				<p>
+					No posts yet. Create one in the{' '}
+					<a href="http://localhost:3333" target="_blank" rel="noreferrer">
+						Sanity Studio
+					</a>
+					.
+				</p>
+			) : (
+				<ul>
+					{posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.slug.current}/`}>{post.title}</a>
+							{post.publishedAt && (
+								<time datetime={post.publishedAt}>
+									{' '}
+									— {new Date(post.publishedAt).toLocaleDateString()}
+								</time>
+							)}
+							{post.excerpt && <p>{post.excerpt}</p>}
+						</li>
+					))}
+				</ul>
+			)}
+		</main>
 	</body>
 </html>

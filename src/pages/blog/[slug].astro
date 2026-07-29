@@ -1,0 +1,60 @@
+---
+import { sanityClient } from 'sanity:client';
+
+type Post = {
+	title: string;
+	slug: { current: string };
+	publishedAt: string;
+	body?: string;
+};
+
+export async function getStaticPaths() {
+	const posts = await sanityClient.fetch<Post[]>(
+		`*[_type == "post" && defined(slug.current)]{ slug }`,
+	);
+
+	return posts.map((post) => ({
+		params: { slug: post.slug.current },
+	}));
+}
+
+const { slug } = Astro.params;
+
+const post = await sanityClient.fetch<Post | null>(
+	`*[_type == "post" && slug.current == $slug][0]{
+    title,
+    slug,
+    publishedAt,
+    body
+  }`,
+	{ slug },
+);
+
+if (!post) {
+	return Astro.redirect('/404');
+}
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{post.title} — oddblog</title>
+	</head>
+	<body>
+		<main>
+			<p><a href="/">← Back</a></p>
+			<article>
+				<h1>{post.title}</h1>
+				{post.publishedAt && (
+					<time datetime={post.publishedAt}>
+						{new Date(post.publishedAt).toLocaleDateString()}
+					</time>
+				)}
+				{post.body && <p>{post.body}</p>}
+			</article>
+		</main>
+	</body>
+</html>
