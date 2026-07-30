@@ -19,6 +19,10 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+### Build restriction
+
+Agents must never run `npm run build`, either in the project root or in `studio/`.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
