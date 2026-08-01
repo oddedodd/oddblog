@@ -1,5 +1,6 @@
 ---
 import { sanityClient } from 'sanity:client';
+import '../../styles/global.css';
 
 type Post = {
 	title: string;
@@ -35,7 +36,7 @@ if (!post) {
 }
 ---
 
-<html lang="en">
+<html lang="en" class="antialiased">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -43,18 +44,48 @@ if (!post) {
 		<meta name="generator" content={Astro.generator} />
 		<title>{post.title} — oddblog</title>
 	</head>
-	<body>
-		<main>
-			<p><a href="/">← Back</a></p>
-			<article>
-				<h1>{post.title}</h1>
-				{post.publishedAt && (
-					<time datetime={post.publishedAt}>
-						{new Date(post.publishedAt).toLocaleDateString()}
-					</time>
+	<body class="font-sans">
+		<header class="border-b border-stone-300 px-6 py-6 sm:px-10 lg:px-16">
+			<nav class="mx-auto flex max-w-4xl items-center justify-between">
+				<a class="font-display text-xl font-semibold tracking-tight text-stone-950" href="/">oddblog</a>
+				<a class="group flex items-center gap-2 text-xs font-semibold tracking-wider text-stone-600 uppercase" href="/">
+					<span class="transition group-hover:-translate-x-1">←</span>
+					All posts
+				</a>
+			</nav>
+		</header>
+
+		<main class="px-6 py-16 sm:px-10 sm:py-24 lg:px-16">
+			<article class="mx-auto max-w-4xl">
+				<header class="border-b border-stone-300 pb-12 sm:pb-16">
+					<p class="mb-6 text-xs font-semibold tracking-[0.2em] text-stone-500 uppercase">Notebook entry</p>
+					<h1 class="max-w-3xl font-display text-5xl leading-[0.95] tracking-[-0.04em] text-stone-950 sm:text-7xl">
+						{post.title}
+					</h1>
+					{post.publishedAt && (
+						<time class="mt-8 block text-sm text-stone-500" datetime={post.publishedAt}>
+							{new Date(post.publishedAt).toLocaleDateString('en', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</time>
+					)}
+				</header>
+
+				{post.body && (
+					<div class="mt-12 max-w-2xl text-lg leading-8 text-stone-700 sm:mt-16 sm:text-xl sm:leading-9">
+						<p class="whitespace-pre-line">{post.body}</p>
+					</div>
 				)}
-				{post.body && <p>{post.body}</p>}
 			</article>
 		</main>
+
+		<footer class="mt-16 border-t border-stone-300 px-6 py-8 sm:px-10 lg:px-16">
+			<div class="mx-auto flex max-w-4xl items-center justify-between text-xs tracking-wide text-stone-500 uppercase">
+				<span>oddblog</span>
+				<a class="hover:text-stone-950" href="/">Back to the index ↑</a>
+			</div>
+		</footer>
 	</body>
 </html>
