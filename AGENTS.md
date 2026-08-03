@@ -23,6 +23,11 @@ Manage the background server with `astro dev stop`, `astro dev status`, and `ast
 
 Agents must never run `npm run build`, either in the project root or in `studio/`.
 
+## GitHub
+
+- Plain `git` commands are sufficient for commits and pushes to the configured GitHub remote.
+- Do not require the GitHub CLI (`gh`) unless the requested operation specifically needs it, such as creating or managing a pull request.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
