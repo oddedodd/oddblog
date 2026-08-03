@@ -63,3 +63,4 @@ Pages live in `src/pages/`. Content schemas and the editing UI live in `studio/`
 
 - [Astro docs](https://docs.astro.build)
 - [Sanity + Astro](https://www.sanity.io/docs/astro/introduction)
+- [Rebuild Astro from Sanity with a Coolify webhook](docs/sanity-coolify-deploy-webhook.md)
